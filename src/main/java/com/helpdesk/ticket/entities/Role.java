@@ -1,5 +1,5 @@
 package com.helpdesk.ticket.entities;
 
-public class UserEntity {
-
+public enum Role {
+	USER, ADMIN
 }

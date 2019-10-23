@@ -1,6 +1,6 @@
 package com.helpdesk.ticket.dto;
 
-public class User {
+public class UserDTO {
 
 	private Integer id;
 	private String firstName;
