@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.approval.UserApprovalHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
@@ -14,9 +15,12 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{
 
-	    static final String CLIENT_ID = "rays-client";
-	    static final String CLIENT_SECRET = "rays-secret";
+	    static final String CLIENT_ID = "client";
+	    static final String CLIENT_SECRET = "clientpassword";
 	    static final String GRANT_TYPE = "password";
+	    static final String AUTHORIZATON_CODE = "authorization_code";
+	    static final String REFRESH_TOKEN = "refresh_token";
+	    static final String IMPLICIT = "implicit";
 	    static final String SCOPE_READ = "read";
 	    static final String SCOPE_WRITE = "write";
 	    static final int ACCESS_TOKEN_VALIDITY_SECONDS = 1 * 60 * 60;
@@ -38,7 +42,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	                .inMemory()
 	                .withClient(CLIENT_ID)
 	                .secret(CLIENT_SECRET)
-	                .authorizedGrantTypes(GRANT_TYPE)
+	                .authorizedGrantTypes(GRANT_TYPE, AUTHORIZATON_CODE, REFRESH_TOKEN, IMPLICIT)
 	                .scopes(SCOPE_READ, SCOPE_WRITE)
 	                .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS).
 	                refreshTokenValiditySeconds(REFRESH_TOKEN_VALIDITY_SECONDS);
@@ -50,4 +54,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	        endpoints.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler)
 	                .authenticationManager(authenticationManager);
 	    }
+	    
+	    
+
+		@Override
+		public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+			oauthServer.allowFormAuthenticationForClients();
+		}
+
 }

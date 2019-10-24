@@ -16,6 +16,7 @@ import com.helpdesk.ticket.service.UserService;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping(path = "/rays")
 public class LoginController {
 
 	@Autowired

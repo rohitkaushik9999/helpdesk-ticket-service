@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +25,6 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	 @Resource(name = "userService")
@@ -48,16 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                  .passwordEncoder(encoder());
      }
 	 
-	 @Override
-	 protected void configure(HttpSecurity http) throws Exception {
-	     http
-	             .csrf().disable()
-	             .anonymous().disable()
-	             .authorizeRequests()
-	             .antMatchers("/api-docs/**").permitAll()
-	             .antMatchers("/oauth/token").permitAll()
-	             .anyRequest().authenticated();
-	 }
+	/*
+	 * @Autowired public void configureGlobal(final AuthenticationManagerBuilder
+	 * auth) throws Exception { auth.inMemoryAuthentication()
+	 * .withUser("user").password("Internal1").roles("USER"); //
+	 * .and().passwordEncoder(Encoder.encode()()); }
+	 */
+	 
 	 
 	 @Bean
 	 public TokenStore tokenStore() {
